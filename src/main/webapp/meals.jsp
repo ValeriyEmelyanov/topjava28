@@ -9,6 +9,9 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
+<div id="commandpanel">
+    <a href="meals?action=add" class="addButton">Add Meal</a>
+</div>
 <c:if test="${list.isEmpty()}">
     <p>No meals</p>
 </c:if>
@@ -20,6 +23,7 @@
                 <th>Date/Time</th>
                 <th>Description</th>
                 <th>Calories</th>
+                <th colspan="2">Action</th>
             </tr>
             <c:forEach var="mealTo" items="${list}">
                 <jsp:useBean id="mealTo" type="ru.javawebinar.topjava.model.MealTo"/>
@@ -27,6 +31,12 @@
                     <td>${dateTimeFormatter.format(mealTo.dateTime)}</td>
                     <td>${mealTo.description}</td>
                     <td>${mealTo.calories}</td>
+                    <td>
+                        <a href="meals?action=edit&id=${mealTo.id}" class="rowButton">Edit</a>
+                    </td>
+                    <td>
+                        <a href="meals?action=delete&id=${mealTo.id}" class="rowButton">Delete</a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
