@@ -20,16 +20,6 @@ public class Meal {
         this.calories = calories;
     }
 
-    @Override
-    public String toString() {
-        return "MealTo{" +
-                "id=" + id +
-                ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                ", calories=" + calories +
-                '}';
-    }
-
     public Long getId() {
         return id;
     }
@@ -52,5 +42,15 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
+    }
+
+    @Override
+    public String toString() {
+        return "MealTo{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                '}';
     }
 }

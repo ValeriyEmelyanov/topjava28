@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MealRepositoryImpl implements MealRepository {
+public class MapMealRepository implements MealRepository {
     private static final AtomicLong idGenerator = new AtomicLong(0);
     private static final Map<Long, Meal> meals = new ConcurrentHashMap<>();
 
@@ -45,14 +45,6 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Meal creat(Meal meal) {
-        Meal created = new Meal(idGenerator.incrementAndGet(),
-                meal.getDateTime(), meal.getDescription(), meal.getCalories());
-        meals.put(created.getId(), created);
-        return created;
-    }
-
-    @Override
     public List<Meal> getAll() {
         return Collections.unmodifiableList(new ArrayList<>(meals.values()));
     }
@@ -64,18 +56,22 @@ public class MealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal save(Meal meal) {
-        if (!meals.containsKey(meal.getId())) {
-            throw new IllegalArgumentException();
+        if (isNew(meal)) {
+            Meal created = new Meal(idGenerator.incrementAndGet(),
+                    meal.getDateTime(), meal.getDescription(), meal.getCalories());
+            meals.put(created.getId(), created);
+            return created;
         }
-        meals.put(meal.getId(), meal);
-        return meal;
+
+        return meals.computeIfPresent(meal.getId(), (id, old) -> meal);
     }
 
     @Override
-    public void delete(Long id) {
-        if (!meals.containsKey(id)) {
-            throw new IllegalArgumentException();
-        }
-        meals.remove(id);
+    public boolean delete(Long id) {
+        return meals.remove(id) != null;
+    }
+
+    private boolean isNew(Meal meal) {
+        return meal.getId() == null;
     }
 }

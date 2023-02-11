@@ -3,13 +3,10 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.MealRepositoryImpl;
+import ru.javawebinar.topjava.repository.MapMealRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,7 @@ public class MealsUtil {
     }
 
     public static List<Meal> getMealList() {
-        MealRepository repository = new MealRepositoryImpl();
+        MealRepository repository = new MapMealRepository();
         return repository.getAll();
     }
 

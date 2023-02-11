@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.MealRepositoryImpl;
+import ru.javawebinar.topjava.repository.MapMealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class MealServlet extends HttpServlet {
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    private static final MealRepository mealRepository = new MealRepositoryImpl();
+    private static final MealRepository mealRepository = new MapMealRepository();
 
     private final Map<String, ServletCommand> commands = new HashMap<>();
 
@@ -126,7 +126,7 @@ public class MealServlet extends HttpServlet {
         log.debug("create meal");
 
         Meal meal = mealFromRequest(request);
-        Meal created = mealRepository.creat(meal);
+        Meal created = mealRepository.save(meal);
         log.debug("Created meal: {}", created);
     }
 
