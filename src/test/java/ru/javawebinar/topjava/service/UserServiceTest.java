@@ -28,7 +28,8 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
+//@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
+@ActiveProfiles(value = {"datajpa", "postgres"})
 public class UserServiceTest {
 
     @Autowired
