@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+<base href="${pageContext.request.contextPath}/"/>
+
 <html>
 <head>
     <title>Meals</title>
@@ -9,7 +11,7 @@
 </head>
 <body>
 <section>
-    <h3><a href="index.jsp">Home</a></h3>
+    <h3><a href="">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
     <form method="get" action="meals/filter">
