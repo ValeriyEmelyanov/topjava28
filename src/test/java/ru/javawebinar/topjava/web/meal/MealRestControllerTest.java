@@ -65,10 +65,8 @@ class MealRestControllerTest extends AbstractControllerTest {
     @Test
     void getBetweenDateTime() throws Exception {
         perform(get(REST_URL + "filter")
-                .param("startDate", "2020-01-30")
-                .param("startTime", "07:00")
-                .param("endDate", "2020-01-31")
-                .param("endTime", "11:00"))
+                .param("start", "2020-01-30T07:00")
+                .param("end", "2020-01-31T11:00"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MEAL_TO_MATCHER.contentJson(createTo(meal5, true), createTo(meal1, false)));
