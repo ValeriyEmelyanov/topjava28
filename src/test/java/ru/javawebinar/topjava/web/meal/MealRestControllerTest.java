@@ -23,6 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.MealTestData.MEAL1_ID;
 import static ru.javawebinar.topjava.MealTestData.MEAL_MATCHER;
 import static ru.javawebinar.topjava.MealTestData.MEAL_TO_MATCHER;
+import static ru.javawebinar.topjava.MealTestData.NOT_FOUND;
+import static ru.javawebinar.topjava.MealTestData.getInvalid;
 import static ru.javawebinar.topjava.MealTestData.meal1;
 import static ru.javawebinar.topjava.MealTestData.meal5;
 import static ru.javawebinar.topjava.MealTestData.meals;
@@ -42,6 +44,13 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MEAL_MATCHER.contentJson(meal1));
+    }
+
+    @Test
+    void getNotFound() throws Exception {
+        perform(get(REST_URL + NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -81,6 +90,15 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createWithLocationInvalidBody() throws Exception {
+        Meal invalid = getInvalid();
+        ResultActions actions = perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void update() throws Exception {
         Meal updated = MealTestData.getUpdated();
         perform(put(REST_URL + MEAL1_ID)
@@ -91,9 +109,24 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void updateInvalidBody() throws Exception {
+        Meal invalid = getInvalid();
+        perform(put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void deleteById() throws Exception {
         perform(delete(REST_URL + MEAL1_ID))
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> mealService.get(MEAL1_ID, USER_ID));
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        perform(delete(REST_URL + NOT_FOUND))
+                .andExpect(status().isNotFound());
     }
 }
