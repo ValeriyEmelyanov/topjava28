@@ -35,10 +35,8 @@ public class RootController {
     }
 
     @GetMapping("/meals")
-    public String getMeals(Model model) {
+    public String getMeals() {
         log.info("meals");
-        model.addAttribute("meals",
-                MealsUtil.getTos(mealService.getAll(SecurityUtil.authUserId()), SecurityUtil.authUserCaloriesPerDay()));
         return "meals";
     }
 }
